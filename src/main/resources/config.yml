@@ -1,0 +1,5 @@
+allowinworlds:
+  - survival
+  - survival_end
+  - survival_nether
+#In what worlds should players be allowed to set their homes?

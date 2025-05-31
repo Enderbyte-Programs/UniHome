@@ -1,0 +1,18 @@
+main: net.enderbyteprograms.UniHome.UniHomeMain
+name: UniHome
+version: 1.0
+api-version: 1.21
+
+commands:
+  sethome:
+    description: Allows the user to set a home
+    permission: unihome.use
+  delhome:
+    description: Allows the users to delete their home
+    permission: unihome.use
+
+permissions:
+  unihome.use:
+    default: true
+  unihome.admin:
+    default: op
