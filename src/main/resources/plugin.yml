@@ -13,9 +13,17 @@ commands:
   home:
     description: Allows the users to go home
     permission: unihome.use
+  pvpon:
+    description: Allow people to hit you
+    permission: unihome.pvp
+  pvpoff:
+    description: Allow people to hit you
+    permission: unihome.pvp
 
 permissions:
   unihome.use:
     default: true
   unihome.admin:
     default: op
+  unihome.pvp:
+    default: true

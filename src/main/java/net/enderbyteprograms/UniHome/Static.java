@@ -8,5 +8,6 @@ public class Static {
     public static FileConfiguration Configuration;
     public static JavaPlugin Plugin;
     public static Table HomeTable;
-    public static String VersionString = "UniHome Mark 1 Patch 1 (c) 2025 Enderbyte Programs";
+    public static Table PvPTable;
+    public static String VersionString = "UniHome Mark 2 Patch 1 (c) 2025 Enderbyte Programs";
 }

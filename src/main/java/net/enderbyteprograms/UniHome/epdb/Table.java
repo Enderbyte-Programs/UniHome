@@ -34,7 +34,7 @@ public class Table {
             } catch (IOException e) {
 
             }
-            String head = rawdata.split("\\|\\|\\|\\|\\n")[0];
+            String head = rawdata.split("\\|\\|\\|\\|")[0];
             for (String columnarentry:head.split(";")) {
                 if (columnarentry.isBlank()) {
                     continue;
@@ -110,6 +110,9 @@ public class Table {
                 }
                 DataTypes vdt = Columns.get(k);
                 String v = String.valueOf(entry.getValue());
+                if (vdt == DataTypes.Boolean) {
+                    v = ((boolean)(entry.getValue())) ? "1" : "0";//Store as int for easy parsing
+                }
                 finald += k;
                 finald += "$";
                 String vv = Base64.getEncoder().encodeToString(v.getBytes(StandardCharsets.UTF_8));
@@ -207,5 +210,14 @@ public class Table {
             }
         }
         return fn;
+    }
+
+    public boolean ExistsWhere(String searchkey,Object searchvalue) {
+        for(HashMap<String,Object> row:Data) {
+            if (row.get(searchkey).equals(searchvalue)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
