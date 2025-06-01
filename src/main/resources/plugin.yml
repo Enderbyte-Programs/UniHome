@@ -10,6 +10,9 @@ commands:
   delhome:
     description: Allows the users to delete their home
     permission: unihome.use
+  home:
+    description: Allows the users to go home
+    permission: unihome.use
 
 permissions:
   unihome.use:

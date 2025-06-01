@@ -51,7 +51,7 @@ public class Table {
                 }
                 Columns.put(k,dt);
             }
-            String body = rawdata.split("\\|\\|\\|\\|\\n")[1];
+            String body = rawdata.split("\\|\\|\\|\\|")[1];
             String[] lines = body.split("\\r?\\n");
             for (String line:lines) {
                 if (line.isBlank()) {
@@ -79,6 +79,11 @@ public class Table {
                 }
                 Data.add(currentline);
             }
+        }
+        try {
+            Save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -112,8 +117,9 @@ public class Table {
                     continue;
                 }
                 finald += vv;
-                finald += "\n";
+                finald += "|";
             }
+            finald += "\n";
         }
         //Static.Plugin.getLogger().info(finald);
         if (filepath.exists()) {
@@ -191,5 +197,15 @@ public class Table {
                 }
             }
         }
+    }
+
+    public List<HashMap<String,Object>> GetWhere(String searchkey,Object searchvalue) {
+        List<HashMap<String,Object>> fn = new ArrayList<>();
+        for(HashMap<String,Object> row:Data) {
+            if (row.get(searchkey).equals(searchvalue)) {
+                fn.add(row);
+            }
+        }
+        return fn;
     }
 }

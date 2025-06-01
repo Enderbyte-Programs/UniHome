@@ -1,6 +1,7 @@
 package net.enderbyteprograms.UniHome;
 
 import net.enderbyteprograms.UniHome.commands.DelHomeCommand;
+import net.enderbyteprograms.UniHome.commands.HomeCommand;
 import net.enderbyteprograms.UniHome.commands.HomeTabCompleter;
 import net.enderbyteprograms.UniHome.commands.SetHomeCommand;
 import net.enderbyteprograms.UniHome.epdb.DataTypes;
@@ -25,6 +26,8 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("sethome").setTabCompleter(new HomeTabCompleter());
         this.getCommand("delhome").setExecutor(new DelHomeCommand());
         this.getCommand("delhome").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("home").setExecutor(new HomeCommand());
+        this.getCommand("home").setTabCompleter(new HomeTabCompleter());
 
         this.getLogger().info("UniHome (c) 2025 Enderbyte Programs, no rights reserved. Plugin initialized.");
     }
