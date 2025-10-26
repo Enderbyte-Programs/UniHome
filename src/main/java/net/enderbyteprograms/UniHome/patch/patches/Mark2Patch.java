@@ -6,7 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Mark2Patch implements PatchTemplate {
     @Override
     public boolean NeedsPatch(JavaPlugin f) {
-        return !f.getConfig().contains("pvpdefault");
+        //f.getLogger().info(String.valueOf(!f.getConfig().contains("pvpdefault",true)));
+        f.getLogger().info("Updating config to mark 2");
+        return !f.getConfig().contains("pvpdefault",true);
     }
 
     @Override

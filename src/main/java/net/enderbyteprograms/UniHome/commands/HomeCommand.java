@@ -23,7 +23,7 @@ public class HomeCommand implements CommandExecutor {
                 ex = Bukkit.getPlayer(strings[0]);
             }
             List<String> allowedworlds = Static.Configuration.getStringList("allowinworlds");
-            if (!allowedworlds.contains(ex.getWorld().getName())) {
+            if (!allowedworlds.contains(ex.getWorld().getName()) && !commandSender.hasPermission("unihome.admin")) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"You may not run this command in this world."+ChatColor.RESET);
                 return false;
             }

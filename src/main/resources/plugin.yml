@@ -19,6 +19,9 @@ commands:
   pvpoff:
     description: Allow people to hit you
     permission: unihome.pvp
+  uhreload:
+    description: Reload the Unihome plugin
+    permission: unihome.admin
 
 permissions:
   unihome.use:

@@ -20,5 +20,6 @@ public class PatchMaster {
                 t.Patch(f);
             }
         }
+        f.saveConfig();
     }
 }

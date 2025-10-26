@@ -37,6 +37,7 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("pvpon").setTabCompleter(new HomeTabCompleter());
         this.getCommand("pvpoff").setExecutor(new PvpOffCommand());
         this.getCommand("pvpoff").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("uhreload").setExecutor(new UHReloadCommand());
 
         this.getLogger().info("UniHome (c) 2025 Enderbyte Programs, no rights reserved. Plugin initialized.");
     }
