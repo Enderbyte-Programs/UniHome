@@ -9,6 +9,7 @@ public class UHReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender.hasPermission("unihome.admin")) {
+            Static.Plugin.reloadConfig();
             Static.Configuration = Static.Plugin.getConfig();
             commandSender.sendMessage("Reloaded Successfully.");
         }

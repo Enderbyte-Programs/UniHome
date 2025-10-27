@@ -10,3 +10,6 @@ pvprunsin:
   - survival
   - survival_end
   - survival_nether
+
+censor-invisibility: true
+#Should invisible players have their names censored

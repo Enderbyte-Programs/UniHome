@@ -5,6 +5,7 @@ import net.enderbyteprograms.UniHome.epdb.DataTypes;
 import net.enderbyteprograms.UniHome.epdb.EPDatabase;
 import net.enderbyteprograms.UniHome.listeners.HitListener;
 import net.enderbyteprograms.UniHome.listeners.JoinListener;
+import net.enderbyteprograms.UniHome.listeners.KillListener;
 import net.enderbyteprograms.UniHome.patch.PatchMaster;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,7 @@ public class UniHomeMain extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new HitListener(), this);
+        getServer().getPluginManager().registerEvents(new KillListener(),this);
 
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("sethome").setTabCompleter(new HomeTabCompleter());
