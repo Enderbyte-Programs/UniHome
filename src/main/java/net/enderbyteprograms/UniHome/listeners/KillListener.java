@@ -25,7 +25,12 @@ public class KillListener implements Listener {
                     boolean hasInvisibility = false;
                     for (PotionEffect pe:p.getActivePotionEffects()) {
                         if (pe.getType().equals(PotionEffectType.INVISIBILITY)) {
-
+                            Static.Plugin.getLogger().info("Real death message: "+deathMessage);
+                            for (Player player:Bukkit.getOnlinePlayers()) {
+                                if (player.hasPermission("unihome.admin")) {
+                                    player.sendMessage("(uncensored) "+deathMessage);
+                                }
+                            }
                             deathMessage = deathMessage.replace(pName,"???");
                         }
                     }

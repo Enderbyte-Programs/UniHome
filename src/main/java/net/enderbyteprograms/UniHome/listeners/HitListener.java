@@ -3,6 +3,8 @@ package net.enderbyteprograms.UniHome.listeners;
 import net.enderbyteprograms.UniHome.Static;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,6 +50,7 @@ public class HitListener implements Listener {
                     boolean result = hitter.performCommand("tempban "+target.getDisplayName()+" 1m HIT BY BANHAMMER");
                     if (result) {
                         for (Player p: Bukkit.getOnlinePlayers()) {
+                            p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.MASTER,1f,1f);
                             p.sendTitle(ChatColor.DARK_RED+target.getDisplayName(), ChatColor.RED + "WAS SMASHED BY THE BANHAMMER",10,160,10);
                         }
                     }

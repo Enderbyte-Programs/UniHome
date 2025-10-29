@@ -22,6 +22,9 @@ commands:
   uhreload:
     description: Reload the Unihome plugin
     permission: unihome.admin
+  getnearby:
+    description: See players that are nearby
+    permission: unihome.admin
 
 permissions:
   unihome.use:
