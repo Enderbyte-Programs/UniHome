@@ -38,7 +38,12 @@ public class GetNearbyCommand implements CommandExecutor {
             }
 
             Location l = p.getLocation();
-            double distance = executor.getLocation().distance(l);
+            double distance = 0;
+            try {
+                distance = executor.getLocation().distance(l);
+            } catch (Exception e) {
+                continue;
+            }
             if (distance <= radius) {
 
                 boolean isInvisible = false;
