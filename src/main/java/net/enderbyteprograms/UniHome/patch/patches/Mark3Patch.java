@@ -7,12 +7,13 @@ public class Mark3Patch implements PatchTemplate {
     @Override
     public boolean NeedsPatch(JavaPlugin f) {
         //f.getLogger().info(String.valueOf(!f.getConfig().contains("pvpdefault",true)));
-        f.getLogger().info("Updating config to mark 3");
         return !f.getConfig().contains("censor-invisibility",true);
     }
 
     @Override
     public void Patch(JavaPlugin f) {
+        f.getLogger().info("Updating config to mark 3");
+
         f.getConfig().set("censor-invisibility",true);
     }
 }

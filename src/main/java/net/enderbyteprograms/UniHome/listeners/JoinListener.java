@@ -1,6 +1,7 @@
 package net.enderbyteprograms.UniHome.listeners;
 
 import net.enderbyteprograms.UniHome.Static;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,10 @@ public class JoinListener implements Listener {
             row.put("uuid",p.getUniqueId().toString());
             row.put("enabled",Static.Configuration.getBoolean("pvpdefault"));
             Static.PvPTable.Insert(row);
+        }
+
+        if (!Static.isAprilFoolsRunning) {
+            p.getAttribute(Attribute.SCALE).setBaseValue(1);//Reset their size
         }
     }
 }

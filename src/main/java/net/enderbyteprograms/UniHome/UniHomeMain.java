@@ -6,6 +6,7 @@ import net.enderbyteprograms.UniHome.epdb.EPDatabase;
 import net.enderbyteprograms.UniHome.listeners.HitListener;
 import net.enderbyteprograms.UniHome.listeners.JoinListener;
 import net.enderbyteprograms.UniHome.listeners.KillListener;
+import net.enderbyteprograms.UniHome.listeners.SizeChangeTimer;
 import net.enderbyteprograms.UniHome.patch.PatchMaster;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,7 +43,14 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("uhreload").setExecutor(new UHReloadCommand());
         this.getCommand("getnearby").setExecutor(new GetNearbyCommand());
 
-        this.getLogger().info("UniHome (c) 2025 Enderbyte Programs, no rights reserved. Plugin initialized.");
+        Static.isAprilFoolsRunning = Static.Configuration.getBoolean("run-april-fools-2026");
+
+        if (Static.isAprilFoolsRunning) {
+            SizeChangeTimer aprilFoolsTimer = new SizeChangeTimer();
+            aprilFoolsTimer.runTaskTimer(this,1L,20L);
+        }
+
+        this.getLogger().info("UniHome (c) 2025-2026 Enderbyte Programs, no rights reserved. Plugin initialized.");
     }
 
     @Override
