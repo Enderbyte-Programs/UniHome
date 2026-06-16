@@ -46,8 +46,8 @@ public class HitListener implements Listener {
         }
         String tguuid = target.getUniqueId().toString();
         String isuuid = hitter.getUniqueId().toString();
-        boolean isenabled = (boolean)(Static.PvPTable.GetWhere("uuid",tguuid).get(0).get("enabled"));
-        boolean isinstigatorenabled = (boolean)(Static.PvPTable.GetWhere("uuid",isuuid).get(0).get("enabled"));
+        boolean isenabled = (boolean)(Static.oldPVPTable.GetWhere("uuid",tguuid).get(0).get("enabled"));
+        boolean isinstigatorenabled = (boolean)(Static.oldPVPTable.GetWhere("uuid",isuuid).get(0).get("enabled"));
         if (!isenabled) {
             hitter.sendMessage("This player has disabled PVP.");
             e.setCancelled(true);

@@ -27,7 +27,7 @@ public class HomeCommand implements CommandExecutor {
                 commandSender.sendMessage(ChatColor.DARK_RED+"You may not run this command in this world."+ChatColor.RESET);
                 return false;
             }
-            List<HashMap<String,Object>> r = Static.HomeTable.GetWhere("uuid",target);
+            List<HashMap<String,Object>> r = Static.oldHomeTable.GetWhere("uuid",target);
             if (r.size() == 0) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"No home set."+ChatColor.RESET);
                 return false;

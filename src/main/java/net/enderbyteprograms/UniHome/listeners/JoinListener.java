@@ -13,11 +13,11 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        if (!Static.PvPTable.ExistsWhere("uuid",p.getUniqueId().toString())) {
+        if (!Static.oldPVPTable.ExistsWhere("uuid",p.getUniqueId().toString())) {
             HashMap<String,Object> row = new HashMap<>();
             row.put("uuid",p.getUniqueId().toString());
             row.put("enabled",Static.Configuration.getBoolean("pvpdefault"));
-            Static.PvPTable.Insert(row);
+            Static.oldPVPTable.Insert(row);
         }
 
         if (!Static.isAprilFoolsRunning) {

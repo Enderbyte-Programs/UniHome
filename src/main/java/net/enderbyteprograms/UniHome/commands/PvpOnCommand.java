@@ -24,11 +24,11 @@ public class PvpOnCommand implements CommandExecutor {
             return false;
         }
 
-        Static.PvPTable.DeleteWhere("uuid",target.getUniqueId().toString());
+        Static.oldPVPTable.DeleteWhere("uuid",target.getUniqueId().toString());
         HashMap<String,Object> newrow = new HashMap<>();
         newrow.put("uuid",target.getUniqueId().toString());
         newrow.put("enabled",true);
-        Static.PvPTable.Insert(newrow);
+        Static.oldPVPTable.Insert(newrow);
         commandSender.sendMessage(ChatColor.GREEN+"Enabled PVP against you"+ChatColor.RESET);
 
         return true;

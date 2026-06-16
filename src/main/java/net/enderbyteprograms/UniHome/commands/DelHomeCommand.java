@@ -3,14 +3,10 @@ package net.enderbyteprograms.UniHome.commands;
 import net.enderbyteprograms.UniHome.Static;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class DelHomeCommand implements CommandExecutor {
     @Override
@@ -25,7 +21,7 @@ public class DelHomeCommand implements CommandExecutor {
                 return false;
             }
 
-            Static.HomeTable.DeleteWhere("uuid",ex.getUniqueId().toString());
+            Static.oldHomeTable.DeleteWhere("uuid",ex.getUniqueId().toString());
             commandSender.sendMessage("Deleted home successfully.");
             return true;
         } else {

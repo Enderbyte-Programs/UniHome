@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SetHomeCommand implements CommandExecutor {
     @Override
@@ -36,8 +35,8 @@ public class SetHomeCommand implements CommandExecutor {
             HashMap<String,Object> row = new HashMap<>();
             row.put("uuid",ex.getUniqueId().toString());
             row.put("location",fn);
-            Static.HomeTable.DeleteWhere("uuid",ex.getUniqueId().toString());
-            Static.HomeTable.Insert(row);
+            Static.oldHomeTable.DeleteWhere("uuid",ex.getUniqueId().toString());
+            Static.oldHomeTable.Insert(row);
             commandSender.sendMessage("Set home successfully. Use /home to go there.");
             return true;
         } else {

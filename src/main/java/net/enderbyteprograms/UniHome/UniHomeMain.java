@@ -1,13 +1,15 @@
 package net.enderbyteprograms.UniHome;
 
 import net.enderbyteprograms.UniHome.commands.*;
-import net.enderbyteprograms.UniHome.epdb.DataTypes;
 import net.enderbyteprograms.UniHome.epdb.EPDatabase;
 import net.enderbyteprograms.UniHome.listeners.HitListener;
 import net.enderbyteprograms.UniHome.listeners.JoinListener;
 import net.enderbyteprograms.UniHome.listeners.KillListener;
 import net.enderbyteprograms.UniHome.listeners.SizeChangeTimer;
 import net.enderbyteprograms.UniHome.patch.PatchMaster;
+import net.enderbyteprograms.database.DataTypes;
+import net.enderbyteprograms.database.Database;
+import net.enderbyteprograms.database.Table;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UniHomeMain extends JavaPlugin {
@@ -19,12 +21,36 @@ public class UniHomeMain extends JavaPlugin {
 
         Static.Configuration = this.getConfig();
         Static.Plugin = this;
-        Static.HomeTable = new EPDatabase(this).GetTable("homes");
-        Static.HomeTable.AddColumn("uuid", DataTypes.String,"");
-        Static.HomeTable.AddColumn("location",DataTypes.String,"");
-        Static.PvPTable = new EPDatabase(this).GetTable("pvp");
-        Static.PvPTable.AddColumn("uuid",DataTypes.String,"");
-        Static.PvPTable.AddColumn("enabled",DataTypes.Boolean,true);
+        Static.oldHomeTable = new EPDatabase(this).GetTable("homes");
+        Static.oldHomeTable.AddColumn("uuid", net.enderbyteprograms.UniHome.epdb.DataTypes.String,"");
+        Static.oldHomeTable.AddColumn("location",net.enderbyteprograms.UniHome.epdb.DataTypes.String,"");
+        Static.oldPVPTable = new EPDatabase(this).GetTable("pvp");
+        Static.oldPVPTable.AddColumn("uuid",net.enderbyteprograms.UniHome.epdb.DataTypes.String,"");
+        Static.oldPVPTable.AddColumn("enabled",net.enderbyteprograms.UniHome.epdb.DataTypes.Boolean,true);
+
+        //Set up the newer database
+        Static.db = new Database(this.getDataFolder().getAbsolutePath() + "/datatables/",false);
+        Static.db.assertTable("names",false);
+        Static.db.assertTable("homes",false);
+        Static.db.assertTable("pvp",false);
+
+        Static.nameAliasTable = Static.db.getTable("names");
+        Static.pvpTable = Static.db.getTable("pvp");
+        Static.homeTable = Static.db.getTable("homes");
+
+        Static.nameAliasTable.addColumn(DataTypes.MediumString,"name","Jimmy Johnson");
+        Static.nameAliasTable.addColumn(DataTypes.LargerString,"uuid","0");
+
+        Static.pvpTable.addColumn(DataTypes.LargerString,"uuid","0");
+        Static.pvpTable.addColumn(DataTypes.Boolean,"enabled",true);
+
+        Static.homeTable.addColumn(DataTypes.LargerString,"uuid","0");
+        Static.homeTable.addColumn(DataTypes.MediumString,"worldname","0");
+        Static.homeTable.addColumn(DataTypes.Double,"x",0D);
+        Static.homeTable.addColumn(DataTypes.Double,"y",0D);
+        Static.homeTable.addColumn(DataTypes.Double,"z",0D);
+
+
 
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new HitListener(), this);

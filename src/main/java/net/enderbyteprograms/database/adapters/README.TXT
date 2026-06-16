@@ -1,0 +1,2 @@
+PACKAGE NAME: Enderbyte Programs Database System II Adapters
+PACKAGE SUMMARY: Adapters, that is, abstractions of storage buffers (in memory and on disk), to fit with a standard that can be used by a database table.

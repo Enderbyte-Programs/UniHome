@@ -13,3 +13,10 @@ pvprunsin:
 
 censor-invisibility: true
 #Should invisible players have their names censored
+
+run-april-fools-2026: false
+
+banned-name-fragments:
+  - Jordan
+  - Rahim
+
