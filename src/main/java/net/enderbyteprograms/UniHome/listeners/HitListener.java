@@ -1,6 +1,7 @@
 package net.enderbyteprograms.UniHome.listeners;
 
-import net.enderbyteprograms.UniHome.Static;
+import net.enderbyteprograms.UniHome.Data;
+import net.enderbyteprograms.database.Comparison;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -41,13 +42,15 @@ public class HitListener implements Listener {
             return;
         }
 
-        if (!Static.Configuration.getStringList("pvprunsin").contains(target.getWorld().getName())) {
+        if (!Data.Configuration.getStringList("pvprunsin").contains(target.getWorld().getName())) {
             return;
         }
         String tguuid = target.getUniqueId().toString();
         String isuuid = hitter.getUniqueId().toString();
-        boolean isenabled = (boolean)(Static.oldPVPTable.GetWhere("uuid",tguuid).get(0).get("enabled"));
-        boolean isinstigatorenabled = (boolean)(Static.oldPVPTable.GetWhere("uuid",isuuid).get(0).get("enabled"));
+        //boolean isenabled = (boolean)(Data.oldPVPTable.GetWhere("uuid",tguuid).get(0).get("enabled"));
+        boolean isenabled = Data.pvpTable.select(new Comparison("uuid",tguuid,false)).get(0).getBool("enabled");
+        //boolean isinstigatorenabled = (boolean)(Data.oldPVPTable.GetWhere("uuid",isuuid).get(0).get("enabled"));
+        boolean isinstigatorenabled = Data.pvpTable.select(new Comparison("uuid",isuuid,false)).get(0).getBool("enabled");
         if (!isenabled) {
             hitter.sendMessage("This player has disabled PVP.");
             e.setCancelled(true);

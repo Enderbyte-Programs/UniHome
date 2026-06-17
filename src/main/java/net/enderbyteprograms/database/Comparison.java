@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Program Title: Static comparison class
+ * Program Title: Data comparison class
  * 
  * Program Summary: Construct complex logical requirements using chains and chains of comparisons
  * 

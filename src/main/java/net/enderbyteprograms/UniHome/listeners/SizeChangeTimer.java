@@ -1,6 +1,6 @@
 package net.enderbyteprograms.UniHome.listeners;
 
-import net.enderbyteprograms.UniHome.Static;
+import net.enderbyteprograms.UniHome.Data;
 import net.enderbyteprograms.UniHome.structures.SizeTransition;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -13,24 +13,24 @@ public class SizeChangeTimer extends BukkitRunnable {
     @Override
     public void run() {
 
-        Static.aprilFoolsTimer++;
+        Data.aprilFoolsTimer++;
 
-        for (int i = 0; i < Static.activeTransitions.size(); i++) {
-            if (Static.activeTransitions.get(i).isFinished()) {
-                Static.activeTransitions.remove(i);
+        for (int i = 0; i < Data.activeTransitions.size(); i++) {
+            if (Data.activeTransitions.get(i).isFinished()) {
+                Data.activeTransitions.remove(i);
                 i--;//Back it up
             }
         }//This block clears transitions that are finished
 
-        for (SizeTransition transition:Static.activeTransitions) {
+        for (SizeTransition transition: Data.activeTransitions) {
             transition.tick();
         }
 
-        if (Static.aprilFoolsTimer % 600 == 0) {
+        if (Data.aprilFoolsTimer % 600 == 0) {
             for (Player p: Bukkit.getOnlinePlayers()) {
                 double currentSize = p.getAttribute(Attribute.SCALE).getBaseValue();
                 double newsize = getNewSize();
-                Static.activeTransitions.add(new SizeTransition(p,currentSize,newsize));
+                Data.activeTransitions.add(new SizeTransition(p,currentSize,newsize));
                 p.sendMessage("Your new size is: "+newsize);
             }
         }

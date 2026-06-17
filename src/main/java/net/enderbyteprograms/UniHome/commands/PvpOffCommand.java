@@ -1,6 +1,8 @@
 package net.enderbyteprograms.UniHome.commands;
 
-import net.enderbyteprograms.UniHome.Static;
+import net.enderbyteprograms.UniHome.Data;
+import net.enderbyteprograms.database.Comparison;
+import net.enderbyteprograms.database.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,22 +15,24 @@ import java.util.HashMap;
 public class PvpOffCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        Player target = null;
+        String targetUUID;
         if (strings.length > 0 && commandSender.hasPermission("unihome.admin")) {
-            target = Bukkit.getPlayer(strings[0]);
+            targetUUID = Data.getUUIDFromName(strings[0]).toString();
         }
         else if (commandSender instanceof Player) {
-            target = (Player)commandSender;
+            targetUUID = ((Player) commandSender).getUniqueId().toString();
         } else {
             commandSender.sendMessage(ChatColor.DARK_RED+"CLI cannot run this"+ChatColor.RESET);
             return false;
         }
 
-        Static.oldPVPTable.DeleteWhere("uuid",target.getUniqueId().toString());
-        HashMap<String,Object> newrow = new HashMap<>();
-        newrow.put("uuid",target.getUniqueId().toString());
-        newrow.put("enabled",false);
-        Static.oldPVPTable.Insert(newrow);
+        if (targetUUID == null) {
+            commandSender.sendMessage("Invalid player");
+            return false;
+        }
+
+        Data.pvpTable.update(new Comparison("uuid",targetUUID,false),new Updater("enabled",false));
+
         commandSender.sendMessage(ChatColor.GREEN+"Disabled PVP against you"+ChatColor.RESET);
 
         return true;

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Program Title: Static Updater for Database Rows
+ * Program Title: Data Updater for Database Rows
  * 
  * Program Summary: Defines a simple direct replace operation for an arbitrary number of rows 
  * 

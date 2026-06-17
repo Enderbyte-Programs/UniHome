@@ -1,13 +1,10 @@
 package net.enderbyteprograms.UniHome.epdb;
 
-import net.enderbyteprograms.UniHome.Static;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
@@ -88,7 +85,7 @@ public class Table {
     }
 
     public void Save() throws IOException {
-        //Static.Plugin.getLogger().info("Saving data");
+        //Data.Plugin.getLogger().info("Saving data");
         String finald = "";
 
         for (Map.Entry<String,DataTypes> ce:Columns.entrySet()) {
@@ -124,7 +121,7 @@ public class Table {
             }
             finald += "\n";
         }
-        //Static.Plugin.getLogger().info(finald);
+        //Data.Plugin.getLogger().info(finald);
         if (filepath.exists()) {
             Files.delete(filepath.toPath());
             filepath.createNewFile();
