@@ -34,10 +34,12 @@ public class UniHomeMain extends JavaPlugin {
         Data.db.assertTable("names",false);
         Data.db.assertTable("homes",false);
         Data.db.assertTable("pvp",false);
+        Data.db.assertTable("joindate",false);
 
         Data.nameAliasTable = Data.db.getTable("names");
         Data.pvpTable = Data.db.getTable("pvp");
         Data.homeTable = Data.db.getTable("homes");
+        Data.joinTimeTable = Data.db.getTable("joindate");
 
         Data.nameAliasTable.addColumn(DataTypes.MediumString,"name","*UNKNOWN");
         Data.nameAliasTable.addColumn(DataTypes.MediumString,"nname","*UNKNOWN");
@@ -51,6 +53,10 @@ public class UniHomeMain extends JavaPlugin {
         Data.homeTable.addColumn(DataTypes.Double,"x",0D);
         Data.homeTable.addColumn(DataTypes.Double,"y",0D);
         Data.homeTable.addColumn(DataTypes.Double,"z",0D);
+
+        Data.joinTimeTable.addColumn(DataTypes.LargerString,"uuid","0");
+        Data.joinTimeTable.addColumn(DataTypes.Integer,"epochdays",0);
+        Data.joinTimeTable.addColumn(DataTypes.Integer,"lastseen",0);
 
         if (Data.oldPVPTable.GetAll().size() > 0) {
             this.getLogger().info("Migrating data");
@@ -79,17 +85,21 @@ public class UniHomeMain extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new KillListener(),this);
 
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
-        this.getCommand("sethome").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("sethome").setTabCompleter(new HomeCommandTabCompleter());
         this.getCommand("delhome").setExecutor(new DelHomeCommand());
-        this.getCommand("delhome").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("delhome").setTabCompleter(new HomeCommandTabCompleter());
         this.getCommand("home").setExecutor(new HomeCommand());
-        this.getCommand("home").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("home").setTabCompleter(new HomeCommandTabCompleter());
         this.getCommand("pvpon").setExecutor(new PvpOnCommand());
-        this.getCommand("pvpon").setTabCompleter(new HomeTabCompleter());
+        this.getCommand("pvpon").setTabCompleter(new HomeCommandTabCompleter());
         this.getCommand("pvpoff").setExecutor(new PvpOffCommand());
-        this.getCommand("pvpoff").setTabCompleter(new HomeTabCompleter());
-        this.getCommand("uhreload").setExecutor(new UHReloadCommand());
+        this.getCommand("pvpoff").setTabCompleter(new HomeCommandTabCompleter());
+        this.getCommand("uhact").setExecutor(new SpecialAdminCommand());
+        this.getCommand("uhact").setTabCompleter(new SpecialAdminCommandTabCompleter());
         this.getCommand("getnearby").setExecutor(new GetNearbyCommand());
+        this.getCommand("playtime").setExecutor(new PlaytimeCommand());
+        this.getCommand("playtime").setTabCompleter(new PlaytimeCommandTabCompleter());
+        this.getCommand("topplaytime").setExecutor(new PlaytimeLeaderboardCommand());
 
         Data.isAprilFoolsRunning = Data.Configuration.getBoolean("run-april-fools-2026");
 

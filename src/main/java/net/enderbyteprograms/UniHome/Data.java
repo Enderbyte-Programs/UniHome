@@ -25,7 +25,8 @@ public class Data {
     public static Table homeTable;
     public static Table pvpTable;
     public static Table nameAliasTable;
-    public static String VersionString = "UniHome Mark 4 Patch 0 (c) 2025-2026 Enderbyte Programs";
+    public static Table joinTimeTable;
+    public static String VersionString = "UniHome Mark 5 Patch 0 (c) 2025-2026 Enderbyte Programs";
     public static List<SizeTransition> activeTransitions = new ArrayList<SizeTransition>();
     public static boolean isAprilFoolsRunning;
     public static int aprilFoolsTimer;
@@ -40,6 +41,16 @@ public class Data {
             return UUID.fromString(tgt.get(0).getString("uuid"));
         }
 
+    }
+
+    public static String getNameFromUUID(UUID uuid) {
+        ResultSet tgt = nameAliasTable.select(new Comparison("uuid",uuid.toString(),false));
+
+        if (tgt.isEmpty()) {
+            return null;
+        } else {
+            return tgt.get(0).getString("name");
+        }
     }
 
 }

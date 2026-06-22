@@ -19,12 +19,22 @@ commands:
   pvpoff:
     description: Allow people to hit you
     permission: unihome.pvp
-  uhreload:
-    description: Reload the Unihome plugin
-    permission: unihome.admin
   getnearby:
     description: See players that are nearby
     permission: unihome.admin
+  uhact:
+    description: UniHome administration commands
+    permission: unihome.admin
+  playtime:
+    description: Playtime information about players
+    permission: unihome.use
+    aliases:
+      - pt
+  topplaytime:
+    description: View the top 10 playtime leaderboard
+    permission: unihome.use
+    aliases:
+      - toppt
 
 permissions:
   unihome.use:
