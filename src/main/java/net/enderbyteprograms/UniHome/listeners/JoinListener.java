@@ -23,8 +23,7 @@ public class JoinListener implements Listener {
 
         } else if (Data.nameAliasTable.select(new Comparison(new Comparison("uuid",p.getUniqueId().toString(),false)).and(new Comparison("name",p.getName(),false))).isEmpty()) {
             //User has changed name
-            Data.nameAliasTable.update(new Comparison("uuid",p.getUniqueId().toString(),false),new Updater("name",p.getName()));            Data.nameAliasTable.update(new Comparison("uuid",p.getUniqueId().toString(),false),new Updater("name",p.getName()));
-            Data.nameAliasTable.update(new Comparison("uuid",p.getUniqueId().toString(),false),new Updater("nname",p.getName().toLowerCase()));
+            Data.nameAliasTable.update(new Comparison("uuid",p.getUniqueId().toString(),false),new Updater("name",p.getName()).add("nname",p.getName().toLowerCase()));
         }
 
         if (Data.pvpTable.select(new Comparison("uuid",p.getUniqueId().toString(),false)).isEmpty()) {

@@ -45,7 +45,8 @@ public class Table {//begin class
     public IOAdapter dataStream;//Scripting engine needs access to this
     public LinkedHashMap<String,DataTypes> columns;
     private LinkedHashMap<String,Integer> columnByteOffsets;
-    private LinkedHashMap<String,Object> defaultValues; 
+    private LinkedHashMap<String,Object> defaultValues;
+    private AutoSaver autoSaver = null;
     private int dataRowLength = 0;
     private final int headerLength = 256;//Max header length is 256 bytes
 
@@ -887,6 +888,22 @@ public class Table {//begin class
 
 
 
+
+    /**
+     * Summary: User an autosaver, saving every n seconds
+     * @param savePeriod after how many seconds to save
+     * @return nothing
+     */
+    public void useAutosave(int savePeriod) {//begin method
+
+        autoSaver = new AutoSaver(this,savePeriod);
+        autoSaver.start();
+
+    }//end method
+
+
+
+
     /**
      * Summary: Save and close up the table. No more methods should be called on this table after this is called.
      * @param nothing
@@ -894,6 +911,12 @@ public class Table {//begin class
      */
     public void finish() {//begin method
 
+        autoSaver.stop();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {
+
+        }
         dataStream.saveAndClose();
 
     }//end method

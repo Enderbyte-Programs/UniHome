@@ -17,9 +17,9 @@ public class KillListener implements Listener {
         }
         String deathMessage = pde.getDeathMessage();
         for (Player p: Bukkit.getOnlinePlayers()) {
-            String pName = p.getDisplayName();
+            String pName = p.getName();
             if (deathMessage.contains(pName)) {
-                if (!pde.getEntity().getDisplayName().equals(pName)) {
+                if (!pde.getEntity().getName().equals(pName)) {
                     //Does the player have invisibility?
 
                     boolean hasInvisibility = false;

@@ -9,13 +9,23 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeCommandTabCompleter implements TabCompleter {
+public class GenericOnlinePlayersTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         List<String> f = new ArrayList<>();
+
+        boolean useChopper = strings.length > 0;
+        String chopperValue = null;
+
+        if (useChopper) {
+            chopperValue = List.of(strings).getLast();
+        }
+
         if (commandSender.hasPermission("unihome.admin")) {
             for (Player p:Bukkit.getOnlinePlayers()) {
-                f.add(p.getDisplayName());
+                if (!useChopper || (p.getName().startsWith(chopperValue))) {
+                    f.add(p.getName());
+                }
             }
         }
         return f;

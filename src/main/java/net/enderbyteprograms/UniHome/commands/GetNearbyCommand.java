@@ -33,7 +33,7 @@ public class GetNearbyCommand implements CommandExecutor {
         commandSender.sendMessage(ChatColor.BOLD+"NEARBY PLAYERS");
 
         for (Player p: Bukkit.getOnlinePlayers()) {
-            if (p.getDisplayName().equals(executor.getDisplayName())) {
+            if (p.getName().equals(executor.getName())) {
                 continue;
             }
 
@@ -54,7 +54,7 @@ public class GetNearbyCommand implements CommandExecutor {
                 }
 
                 String constructedString = "";
-                constructedString += p.getDisplayName();
+                constructedString += p.getName();
                 constructedString += " ";
                 constructedString += p.getLocation().getBlockX() + "," + p.getLocation().getBlockY() + "," + p.getLocation().getBlockZ();
                 constructedString += " ";

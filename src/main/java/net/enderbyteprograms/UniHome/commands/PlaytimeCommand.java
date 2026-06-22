@@ -2,6 +2,7 @@ package net.enderbyteprograms.UniHome.commands;
 
 import net.enderbyteprograms.UniHome.Data;
 import net.enderbyteprograms.UniHome.Playtime;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +19,18 @@ public class PlaytimeCommand implements CommandExecutor {
 
         if (args.length > 0){
             String tpn = args[0];
-            targetUUID = Data.getUUIDFromName(tpn);
+
+            if (tpn.startsWith("uuid:")) {
+                try {
+                    targetUUID = UUID.fromString(tpn.split(":")[1]);
+                } catch (Exception e) {
+                    sender.sendMessage("Invalid UUID");
+                    return false;
+                }
+            } else {
+
+                targetUUID = Data.getUUIDFromName(tpn);
+            }
 
         } else {
             if (sender instanceof Player) {
@@ -35,9 +47,13 @@ public class PlaytimeCommand implements CommandExecutor {
         }
 
         Duration result = Playtime.getPlaytime(targetUUID);
+        if (result.isZero()) {
+            sender.sendMessage("Unable to get playtime data for this player");
+            return false;
+        }
         String friendlyResult = String.format("%d days, %02d:%02d:%02d",result.toDaysPart(),result.toHoursPart(),result.toMinutesPart(),result.toSecondsPart());
         double resultInKilominutes = result.toMinutes() / 1000D;
-        sender.sendMessage( ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+""+"===== Information for "+Data.getNameFromUUID(targetUUID)+" =====");
+        sender.sendMessage( ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"===== Information for "+Data.getNameFromUUID(targetUUID)+" =====");
         sender.sendMessage(ChatColor.AQUA+"Playtime: "+ChatColor.RESET+friendlyResult);
         sender.sendMessage(String.format("%sPlaytime (kmin):%s %.03f",ChatColor.AQUA,ChatColor.RESET,resultInKilominutes));
         sender.sendMessage(String.format("%sJoin date:%s %s",ChatColor.AQUA,ChatColor.RESET,""));

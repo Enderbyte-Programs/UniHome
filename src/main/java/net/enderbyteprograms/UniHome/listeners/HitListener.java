@@ -70,11 +70,11 @@ public class HitListener implements Listener {
         }
         if (iutim.hasLore()) {
             if (iutim.getLore().get(0).contains("#banhammer")) {
-                boolean result = hitter.performCommand("tempban "+target.getDisplayName()+" 1m HIT BY BANHAMMER");
+                boolean result = hitter.performCommand("tempban "+target.getName()+" 1m HIT BY BANHAMMER");
                 if (result) {
                     for (Player p: Bukkit.getOnlinePlayers()) {
                         p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.MASTER,1f,1f);
-                        p.sendTitle(ChatColor.DARK_RED+target.getDisplayName(), ChatColor.RED + "WAS SMASHED BY THE BANHAMMER",10,160,10);
+                        p.sendTitle(ChatColor.DARK_RED+target.getName(), ChatColor.RED + "WAS SMASHED BY THE BANHAMMER",10,160,10);
                     }
                 }
             }
