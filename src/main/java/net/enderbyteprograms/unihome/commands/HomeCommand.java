@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class HomeCommand implements CommandExecutor {
     @Override
@@ -33,13 +34,13 @@ public class HomeCommand implements CommandExecutor {
 
             //ResultSet result = Data.homeTable.select(new Comparison("uuid",targetUUID,false));
 
-            if (!Data.playerInformation.get(targetUUID).hasHome()) {
+            if (!Data.playerInformation.get(UUID.fromString(targetUUID)).hasHome()) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"No home set."+ChatColor.RESET);
                 return false;
             }
 
             //ResultRow targetRow = result.get(0);
-            PlayerInfo targetRow = Data.playerInformation.get(targetUUID);
+            PlayerInfo targetRow = Data.playerInformation.get(UUID.fromString(targetUUID));
 
             Location l = new Location(Bukkit.getWorld(targetRow.homeWorld),targetRow.homeX,targetRow.homeY,targetRow.homeZ);
             issuingPlayer.teleport(l);
