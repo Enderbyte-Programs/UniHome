@@ -28,7 +28,7 @@ import java.util.List;
  * @author Jordan Rahim
  * @version 1
  */
-public class SerializedJavaObjectFile<T> {//begin class
+public class SerializedJavaObjectFile<T extends SafetySerializable> {//begin class
 
     //vars
     public File path;
@@ -89,6 +89,7 @@ public class SerializedJavaObjectFile<T> {//begin class
                 rawReadObject = objectInputStream.readObject();
                 
                 parsedObject = (T)rawReadObject;
+                parsedObject.safetyCheck();
                 result.add(parsedObject);
 
             }//end for

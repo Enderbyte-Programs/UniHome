@@ -1,6 +1,8 @@
 package net.enderbyteprograms.unihome;
 
 import com.google.common.collect.HashBiMap;
+import net.enderbyteprograms.Utilities;
+import net.enderbyteprograms.database.ResultRow;
 import net.enderbyteprograms.unihome.commands.*;
 import net.enderbyteprograms.unihome.listeners.HitListener;
 import net.enderbyteprograms.unihome.listeners.JoinListener;
@@ -29,7 +31,7 @@ public class UniHomeMain extends JavaPlugin {
         Data.Plugin = this;
 
         //Set up the newer database
-        Data.db = new Database(this.getDataFolder().getAbsolutePath() + "/datatables/",true);
+        Data.db = new Database(this.getDataFolder().getAbsolutePath() + "/datatables/",false);
         Data.db.assertTable("names",false);
         Data.db.assertTable("homes",false);
         Data.db.assertTable("pvp",false);
@@ -77,6 +79,57 @@ public class UniHomeMain extends JavaPlugin {
             getLogger().info("Migrating from EPDB2 to SJO");
 
             //Make empty profiles for each user
+            for (ResultRow nameRow:Data.nameAliasTable.select()) {
+                PlayerInfo newProfile = new PlayerInfo();
+                newProfile.uuid = nameRow.getString("uuid");
+                newProfile.name = nameRow.getString("name");
+                newProfile.comparableName = nameRow.getString("nname");
+
+                if (newProfile.name.equals("*UNKNOWN*")) {
+                    newProfile.name = "#unknown_"+ Utilities.getRandomInt(10000,99999);//No longer allowed to have duplicates, sorry
+                    newProfile.comparableName = newProfile.name;
+                }
+
+                try {
+
+                    Data.playerInformation.put(UUID.fromString(newProfile.uuid),newProfile);
+                    Data.nameCapitalizationMappings.put(newProfile.name,newProfile.comparableName);
+                    Data.uuidToNameMappings.forcePut(UUID.fromString(newProfile.uuid),newProfile.name);
+
+                } catch (Exception e) {
+
+                }
+            }
+
+            Data.nameAliasTable.delete();
+            Data.nameAliasTable.saveData();
+
+            for (ResultRow homeRow:Data.homeTable.select()) {
+                UUID uuid = UUID.fromString(homeRow.getString("uuid"));
+
+                PlayerInfo currentProfile = Data.playerInformation.get(uuid);
+                currentProfile.homeWorld = homeRow.getString("world");
+                currentProfile.homeX = homeRow.getDouble("x");
+                currentProfile.homeY = homeRow.getDouble("y");
+                currentProfile.homeZ = homeRow.getDouble("z");
+
+            }
+            Data.homeTable.delete();
+            Data.homeTable.saveData();
+
+            for (ResultRow pvpRow:Data.pvpTable.select()) {
+                UUID uuid = UUID.fromString(pvpRow.getString("uuid"));
+
+                PlayerInfo currentProfile = Data.playerInformation.get(uuid);
+                currentProfile.pvpEnabled = pvpRow.getBool("enabled");
+            }
+
+            Data.pvpTable.delete();
+            Data.pvpTable.delete();
+            Data.joinTimeTable.delete();
+            Data.joinTimeTable.delete();
+
+            Data.playerInfoFile.write(Data.playerInformation.values());
 
         }
 
@@ -110,15 +163,14 @@ public class UniHomeMain extends JavaPlugin {
         saveTimer.runTaskTimerAsynchronously(this,1L,200L);//Autosave every 10 seconds. Subject to change if it is struggling
 
 
-        this.getLogger().info("unihome (c) 2025-2026 Enderbyte Programs, no rights reserved. Plugin initialized.");
+        this.getLogger().info("UniHome (c) 2025-2026 Enderbyte Programs, no rights reserved. Plugin initialized.");
     }
 
     @Override
     public void onDisable() {
+        synchronized (Data.playerInformationLock) {
+            Data.playerInfoFile.write(Data.playerInformation.values());
+        }
         this.getLogger().info("Goodbye!");
-        Data.pvpTable.finish();
-        Data.nameAliasTable.finish();
-        Data.homeTable.finish();
-        Data.joinTimeTable.finish();
     }
 }
