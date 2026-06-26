@@ -1,5 +1,5 @@
-main: net.enderbyteprograms.UniHome.UniHomeMain
-name: UniHome
+main: net.enderbyteprograms.unihome.UniHomeMain
+name: unihome
 version: 1.0
 api-version: 1.21
 
@@ -23,7 +23,7 @@ commands:
     description: See players that are nearby
     permission: unihome.admin
   uhact:
-    description: UniHome administration commands
+    description: unihome administration commands
     permission: unihome.admin
   playtime:
     description: Playtime information about players
