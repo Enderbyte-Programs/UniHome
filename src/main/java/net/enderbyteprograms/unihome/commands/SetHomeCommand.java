@@ -2,6 +2,7 @@ package net.enderbyteprograms.unihome.commands;
 
 import net.enderbyteprograms.unihome.Data;
 import net.enderbyteprograms.database.Comparison;
+import net.enderbyteprograms.unihome.structures.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,7 +35,7 @@ public class SetHomeCommand implements CommandExecutor {
                 return false;
             }
 
-            List<String> allowedworlds = Data.Configuration.getStringList("allowinworlds");
+            List<String> allowedworlds = Data.configuration.getStringList("allowinworlds");
             if (!allowedworlds.contains(issuingPlayer.getWorld().getName())) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"Home may not be in this world."+ChatColor.RESET);
                 return false;
@@ -53,8 +54,16 @@ public class SetHomeCommand implements CommandExecutor {
             Data.oldHomeTable.Insert(row);
             */
 
+            /*
             Data.homeTable.delete(new Comparison("uuid",targettingPlayer.getUniqueId().toString(),false));
             Data.homeTable.insert(Map.of("uuid",targettingPlayer.getUniqueId().toString(),"world",l.getWorld().getName(),"x",l.getX(),"y",l.getY(),"z",l.getZ()));
+            */
+
+            PlayerInfo profile = Data.playerInformation.get(targettingPlayer.getUniqueId());
+            profile.homeWorld = l.getWorld().getName();
+            profile.homeX = l.getX();
+            profile.homeY = l.getY();
+            profile.homeZ = l.getZ();
 
             if (foreignIssuer) {
                 commandSender.sendMessage("This player's home has been set to *your* location.");

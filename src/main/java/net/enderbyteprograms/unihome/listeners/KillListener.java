@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 public class KillListener implements Listener {
     @EventHandler
     public void onDie(PlayerDeathEvent pde) {
-        if (!Data.Configuration.getBoolean("censor-invisibility")) {
+        if (!Data.configuration.getBoolean("censor-invisibility")) {
             return;
         }
         String deathMessage = pde.getDeathMessage();
@@ -25,7 +25,7 @@ public class KillListener implements Listener {
                     boolean hasInvisibility = false;
                     for (PotionEffect pe:p.getActivePotionEffects()) {
                         if (pe.getType().equals(PotionEffectType.INVISIBILITY)) {
-                            Data.Plugin.getLogger().info("Real death message: "+deathMessage);
+                            Data.plugin.getLogger().info("Real death message: "+deathMessage);
                             for (Player player:Bukkit.getOnlinePlayers()) {
                                 if (player.hasPermission("unihome.admin")) {
                                     player.sendMessage("(uncensored) "+deathMessage);

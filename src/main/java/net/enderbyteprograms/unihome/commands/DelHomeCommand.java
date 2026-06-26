@@ -27,7 +27,8 @@ public class DelHomeCommand implements CommandExecutor {
                 return false;
             }
 
-            Data.homeTable.delete(new Comparison("uuid",targetUUID,false));
+            //Data.homeTable.delete(new Comparison("uuid",targetUUID,false));
+            Data.playerInformation.get(targetUUID).homeWorld = null;
             commandSender.sendMessage("Deleted home successfully.");
             return true;
         } else {

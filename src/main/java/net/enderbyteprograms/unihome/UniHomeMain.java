@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UniHomeMain extends JavaPlugin {
     @Override
@@ -27,8 +28,8 @@ public class UniHomeMain extends JavaPlugin {
         this.saveDefaultConfig();
         PatchMaster.Patch(this);
 
-        Data.Configuration = this.getConfig();
-        Data.Plugin = this;
+        Data.configuration = this.getConfig();
+        Data.plugin = this;
 
         //Set up the newer database
         Data.db = new Database(this.getDataFolder().getAbsolutePath() + "/datatables/",false);
@@ -62,7 +63,7 @@ public class UniHomeMain extends JavaPlugin {
         //Data storage V3 setup
         Data.nameCapitalizationMappings = HashBiMap.create();
         Data.uuidToNameMappings = HashBiMap.create();
-        Data.playerInformation = new HashMap<>();
+        Data.playerInformation = new ConcurrentHashMap<>();
 
         Data.playerInfoFile = new SerializedJavaObjectFile<>(new File(getDataFolder().getAbsoluteFile().toString() + "/playerinfo.sjo"));
 
@@ -85,7 +86,7 @@ public class UniHomeMain extends JavaPlugin {
                 newProfile.name = nameRow.getString("name");
                 newProfile.comparableName = nameRow.getString("nname");
 
-                if (newProfile.name.equals("*UNKNOWN*")) {
+                if (newProfile.name.startsWith("*UNKNOWN")) {
                     newProfile.name = "#unknown_"+ Utilities.getRandomInt(10000,99999);//No longer allowed to have duplicates, sorry
                     newProfile.comparableName = newProfile.name;
                 }
@@ -154,7 +155,7 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("playtime").setTabCompleter(new GenericOnlinePlayersTabCompleter());
         this.getCommand("topplaytime").setExecutor(new PlaytimeLeaderboardCommand());
 
-        Data.isAprilFoolsRunning = Data.Configuration.getBoolean("run-april-fools-2026");
+        Data.isAprilFoolsRunning = Data.configuration.getBoolean("run-april-fools-2026");
 
 
         SecondlyTimer secondlyTimer = new SecondlyTimer();

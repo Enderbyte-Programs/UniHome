@@ -14,7 +14,7 @@ public class PlayerInfo implements SafetySerializable {
     public Integer joinDay;//Epoch days
     public Integer lastSeenDay;//Epoch days
     public Boolean pvpEnabled;
-    public static final long SerialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
     //These are all objects so they can be nulled
 
     public PlayerInfo() {}
@@ -37,5 +37,9 @@ public class PlayerInfo implements SafetySerializable {
 
     public boolean lastSeenDataFilledIn() {
         return lastSeenDay != null;
+    }
+
+    public boolean playtimeFilledIn(){
+        return playtimeInTicks != null;
     }
 }

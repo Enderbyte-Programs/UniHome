@@ -28,7 +28,8 @@ public class PvpOnCommand implements CommandExecutor {
             return false;
         }
 
-        Data.pvpTable.update(new Comparison("uuid",targetUUID,false),new Updater("enabled",true));
+        //Data.pvpTable.update(new Comparison("uuid",targetUUID,false),new Updater("enabled",true));
+        Data.playerInformation.get(targetUUID).pvpEnabled = true;
 
         commandSender.sendMessage(ChatColor.GREEN+"Enabled PVP against you"+ChatColor.RESET);
 

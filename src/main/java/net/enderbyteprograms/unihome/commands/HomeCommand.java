@@ -4,6 +4,7 @@ import net.enderbyteprograms.unihome.Data;
 import net.enderbyteprograms.database.Comparison;
 import net.enderbyteprograms.database.ResultRow;
 import net.enderbyteprograms.database.ResultSet;
+import net.enderbyteprograms.unihome.structures.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,22 +25,23 @@ public class HomeCommand implements CommandExecutor {
                 targetUUID = Data.getUUIDFromName(strings[0]).toString();
 
             }
-            List<String> allowedworlds = Data.Configuration.getStringList("allowinworlds");
+            List<String> allowedworlds = Data.configuration.getStringList("allowinworlds");
             if (!allowedworlds.contains(issuingPlayer.getWorld().getName()) && !commandSender.hasPermission("unihome.admin")) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"You may not run this command in this world."+ChatColor.RESET);
                 return false;
             }
 
-            ResultSet result = Data.homeTable.select(new Comparison("uuid",targetUUID,false));
+            //ResultSet result = Data.homeTable.select(new Comparison("uuid",targetUUID,false));
 
-            if (result.size() == 0) {
+            if (!Data.playerInformation.get(targetUUID).hasHome()) {
                 commandSender.sendMessage(ChatColor.DARK_RED+"No home set."+ChatColor.RESET);
                 return false;
             }
 
-            ResultRow targetRow = result.get(0);
+            //ResultRow targetRow = result.get(0);
+            PlayerInfo targetRow = Data.playerInformation.get(targetUUID);
 
-            Location l = new Location(Bukkit.getWorld(targetRow.getString("world")),targetRow.getDouble("x"),targetRow.getDouble("y"),targetRow.getDouble("z"));
+            Location l = new Location(Bukkit.getWorld(targetRow.homeWorld),targetRow.homeX,targetRow.homeY,targetRow.homeZ);
             issuingPlayer.teleport(l);
             commandSender.sendMessage("Going home...");
             return true;

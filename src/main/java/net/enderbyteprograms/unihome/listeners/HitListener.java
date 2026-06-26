@@ -42,15 +42,17 @@ public class HitListener implements Listener {
             return;
         }
 
-        if (!Data.Configuration.getStringList("pvprunsin").contains(target.getWorld().getName())) {
+        if (!Data.configuration.getStringList("pvprunsin").contains(target.getWorld().getName())) {
             return;
         }
         String tguuid = target.getUniqueId().toString();
         String isuuid = hitter.getUniqueId().toString();
         //boolean isenabled = (boolean)(Data.oldPVPTable.GetWhere("uuid",tguuid).get(0).get("enabled"));
-        boolean isenabled = Data.pvpTable.select(new Comparison("uuid",tguuid,false)).get(0).getBool("enabled");
+        //boolean isenabled = Data.pvpTable.select(new Comparison("uuid",tguuid,false)).get(0).getBool("enabled");
+        boolean isenabled = Data.playerInformation.get(target.getUniqueId()).pvpEnabled;
         //boolean isinstigatorenabled = (boolean)(Data.oldPVPTable.GetWhere("uuid",isuuid).get(0).get("enabled"));
-        boolean isinstigatorenabled = Data.pvpTable.select(new Comparison("uuid",isuuid,false)).get(0).getBool("enabled");
+        //boolean isinstigatorenabled = Data.pvpTable.select(new Comparison("uuid",isuuid,false)).get(0).getBool("enabled");
+        boolean isinstigatorenabled = Data.playerInformation.get(hitter.getUniqueId()).pvpEnabled;
         if (!isenabled) {
             hitter.sendMessage("This player has disabled PVP.");
             e.setCancelled(true);

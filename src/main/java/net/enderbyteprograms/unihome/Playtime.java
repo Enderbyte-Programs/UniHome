@@ -15,14 +15,13 @@ public class Playtime {
 
     public static Duration getPlaytime(UUID playerUUID) {
 
-        OfflinePlayer p = Bukkit.getOfflinePlayer(playerUUID);
 
         try {
 
-            int rawPlaytime = p.getStatistic(Statistic.PLAY_ONE_MINUTE);
+            int rawPlaytime = Data.playerInformation.get(playerUUID).playtimeInTicks;
             return Duration.of(rawPlaytime / 20,ChronoUnit.SECONDS);
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return Duration.of(0, ChronoUnit.SECONDS);
         }
 
@@ -52,28 +51,31 @@ public class Playtime {
             return null;
         }
 
+        if (!Data.playerInformation.get(playerUUID).joinDataFilledIn()) {
+            return null;
+        }
+
         Instant candidateResult;
         OfflinePlayer p = Bukkit.getOfflinePlayer(playerUUID);
 
         if (p.hasPlayedBefore()) {
 
             int serverStoredRecord = (int)(p.getFirstPlayed() / (1000 * 60 * 60 * 24));//Convert to epoch days
-            int cachedRecord = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false)).get(0).getInt("epochdays");
+            //int cachedRecord = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false)).get(0).getInt("epochdays");
+            int cachedRecord = Data.playerInformation.get(playerUUID).joinDay;
 
             if (cachedRecord < serverStoredRecord) {
                 candidateResult = Instant.ofEpochSecond(cachedRecord * (60 * 60 * 24));
             } else {
                 candidateResult = Instant.ofEpochSecond((long) serverStoredRecord * 60 * 60 * 24);
+                Data.playerInformation.get(playerUUID).joinDay = serverStoredRecord;
             }
 
         } else {
 
-            ResultSet prs = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false));
-            if (prs.size() == 0) {
-                return null;
-            }
+            int prs = Data.playerInformation.get(playerUUID).joinDay;
 
-            candidateResult = Instant.ofEpochSecond((long) prs.get(0).getInt("epochdays") * 60 * 60 * 24);
+            candidateResult = Instant.ofEpochSecond((long) prs * 60 * 60 * 24);
 
         }
 
@@ -88,7 +90,12 @@ public class Playtime {
 
         UUID playerUUID = Data.getUUIDFromName(playerUsername);
 
+
         if (playerUUID == null) {
+            return null;
+        }
+
+        if (!Data.playerInformation.get(playerUUID).lastSeenDataFilledIn()) {
             return null;
         }
 
@@ -98,22 +105,20 @@ public class Playtime {
         if (p.hasPlayedBefore()) {
 
             int serverStoredRecord = (int)(p.getLastPlayed() / (1000 * 60 * 60 * 24));//Convert to epoch days
-            int cachedRecord = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false)).get(0).getInt("lastseen");
+            int cachedRecord = Data.playerInformation.get(playerUUID).lastSeenDay;
 
             if (cachedRecord < serverStoredRecord) {
                 candidateResult = Instant.ofEpochSecond(cachedRecord * (60 * 60 * 24));
             } else {
                 candidateResult = Instant.ofEpochSecond((long) serverStoredRecord * 60 * 60 * 24);
+                Data.playerInformation.get(playerUUID).lastSeenDay = serverStoredRecord;
             }
 
         } else {
 
-            ResultSet prs = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false));
-            if (prs.size() == 0) {
-                return null;
-            }
+            int prs = Data.playerInformation.get(playerUUID).lastSeenDay;
 
-            candidateResult = Instant.ofEpochSecond((long) prs.get(0).getInt("lastseen") * 60 * 60 * 24);
+            candidateResult = Instant.ofEpochSecond((long) prs * 60 * 60 * 24);
 
         }
 

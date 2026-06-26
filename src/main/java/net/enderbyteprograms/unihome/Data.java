@@ -3,9 +3,7 @@ package net.enderbyteprograms.unihome;
 import com.google.common.collect.BiMap;
 import net.enderbyteprograms.unihome.structures.PlayerInfo;
 import net.enderbyteprograms.unihome.structures.SizeTransition;
-import net.enderbyteprograms.database.Comparison;
 import net.enderbyteprograms.database.Database;
-import net.enderbyteprograms.database.ResultSet;
 import net.enderbyteprograms.database.Table;
 import net.enderbyteprograms.sjo.SerializedJavaObjectFile;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,10 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Data {
-    public static FileConfiguration Configuration;
-    public static JavaPlugin Plugin;
+    public static FileConfiguration configuration;
+    public static JavaPlugin plugin;
 
     //BEGIN DEPRECATED STUFF
     public static Database db;
@@ -28,10 +27,10 @@ public class Data {
     public static Table joinTimeTable;
     //END DEPRECATED STUFF
 
-    //Light data storage?
+    //Light data storage? I will be very upset if my 3rd data storage fix attempt goes wrong
     public static BiMap<UUID,String> uuidToNameMappings;
     public static BiMap<String,String> nameCapitalizationMappings;
-    public static HashMap<UUID, PlayerInfo> playerInformation;
+    public static ConcurrentHashMap<UUID, PlayerInfo> playerInformation;
 
     public static SerializedJavaObjectFile<PlayerInfo> playerInfoFile;
     public static final Object playerInformationLock = new Object();
@@ -43,23 +42,20 @@ public class Data {
 
     public static UUID getUUIDFromName(String username) {
 
-        ResultSet tgt = nameAliasTable.select(new Comparison("nname",username.toLowerCase(),false));
-
-        if (tgt.size() == 0) {
+        try {
+            String trueUsername = nameCapitalizationMappings.inverse().get(username.toLowerCase());
+            return uuidToNameMappings.inverse().get(trueUsername);
+        } catch (Exception e) {
             return null;
-        } else {
-            return UUID.fromString(tgt.get(0).getString("uuid"));
         }
 
     }
 
     public static String getNameFromUUID(UUID uuid) {
-        ResultSet tgt = nameAliasTable.select(new Comparison("uuid",uuid.toString(),false));
-
-        if (tgt.isEmpty()) {
+        try {
+            return uuidToNameMappings.get(uuid);
+        } catch (Exception e) {
             return null;
-        } else {
-            return tgt.get(0).getString("name");
         }
     }
 
