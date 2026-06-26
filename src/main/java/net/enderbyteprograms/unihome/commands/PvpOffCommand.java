@@ -3,6 +3,9 @@ package net.enderbyteprograms.unihome.commands;
 import net.enderbyteprograms.unihome.Data;
 import net.enderbyteprograms.database.Comparison;
 import net.enderbyteprograms.database.Updater;
+
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +32,7 @@ public class PvpOffCommand implements CommandExecutor {
         }
 
         //Data.pvpTable.update(new Comparison("uuid",targetUUID,false),new Updater("enabled",false));
-        Data.playerInformation.get(targetUUID).pvpEnabled = false;
+        Data.playerInformation.get(UUID.fromString(targetUUID)).pvpEnabled = false;
 
         commandSender.sendMessage(ChatColor.GREEN+"Disabled PVP against you"+ChatColor.RESET);
 
