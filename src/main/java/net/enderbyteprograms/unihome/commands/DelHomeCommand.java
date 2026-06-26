@@ -1,7 +1,9 @@
 package net.enderbyteprograms.unihome.commands;
 
 import net.enderbyteprograms.unihome.Data;
-import net.enderbyteprograms.database.Comparison;
+
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,7 +30,7 @@ public class DelHomeCommand implements CommandExecutor {
             }
 
             //Data.homeTable.delete(new Comparison("uuid",targetUUID,false));
-            Data.playerInformation.get(targetUUID).homeWorld = null;
+            Data.playerInformation.get(UUID.fromString(targetUUID)).homeWorld = null;
             commandSender.sendMessage("Deleted home successfully.");
             return true;
         } else {
