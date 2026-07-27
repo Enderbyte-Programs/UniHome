@@ -69,7 +69,7 @@ public class UniHomeMain extends JavaPlugin {
 
         int inc = 0;
         for (PlayerInfo pi:Data.playerInfoFile.read()) {
-            if (pi.name.startsWith("*UNKNOWN")) {
+            if (pi.name == null || pi.name.startsWith("*UNKNOWN")) {
                 pi.name = "#unknown_"+ Utilities.getRandomInt(10000,99999);//No longer allowed to have duplicates, sorry
                 pi.comparableName = pi.name;
             }

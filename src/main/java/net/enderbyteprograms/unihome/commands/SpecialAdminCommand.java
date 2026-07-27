@@ -44,7 +44,7 @@ public class SpecialAdminCommand implements CommandExecutor {
 
 
 
-                    if (!Data.playerInformation.containsKey(p.getUniqueId())) {
+                    if (!Data.playerInformation.containsKey(p.getUniqueId()) || Data.playerInformation.get(p.getUniqueId()).name == null) {
                         recordsadded++;
                         //Data.nameAliasTable.insert(Map.of("uuid",p.getUniqueId().toString(),"name",p.getName(),"nname",p.getName().toLowerCase()));
                         PlayerInfo pi = new PlayerInfo();
@@ -56,8 +56,13 @@ public class SpecialAdminCommand implements CommandExecutor {
                             pi.name = p.getName();
                             pi.comparableName = p.getName().toLowerCase();
                         }
+
                         Data.playerInformation.put(p.getUniqueId(),pi);
                     } else {
+
+                        if (p.getName() == null) {
+                            continue;
+                        }
 
                         if (Data.playerInformation.get(p.getUniqueId()).name.startsWith("#unknown")) {
                             //Data.nameAliasTable.update(new Comparison("uuid", p.getUniqueId().toString(), false), new Updater("name", p.getName()).add("nname", p.getName().toLowerCase()));

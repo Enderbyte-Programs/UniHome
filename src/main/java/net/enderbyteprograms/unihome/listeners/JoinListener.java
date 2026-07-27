@@ -23,6 +23,8 @@ public class JoinListener implements Listener {
             profile.comparableName = p.getName().toLowerCase();
             profile.pvpEnabled = Data.plugin.getConfig().getBoolean("pvpdefault");
             profile.playtimeInTicks = p.getStatistic(Statistic.PLAY_ONE_MINUTE);
+            Data.playerInformation.put(p.getUniqueId(),profile);
+            //The above line was missing for TOO LONG...
         }
 
         if (!Data.isAprilFoolsRunning) {
