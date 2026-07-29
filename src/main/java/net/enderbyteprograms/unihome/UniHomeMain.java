@@ -158,6 +158,8 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("playtime").setExecutor(new PlaytimeCommand());
         this.getCommand("playtime").setTabCompleter(new GenericOnlinePlayersTabCompleter());
         this.getCommand("topplaytime").setExecutor(new PlaytimeLeaderboardCommand());
+        this.getCommand("earmark").setExecutor(new EarmarkCommand());
+        this.getCommand("earmark").setTabCompleter(new EarmarkCommandTabCompleter());
 
         Data.isAprilFoolsRunning = Data.configuration.getBoolean("run-april-fools-2026");
 

@@ -7,12 +7,15 @@ commands:
   sethome:
     description: Allows the user to set a home
     permission: unihome.use
+    usage: /sethome [player]
   delhome:
     description: Allows the users to delete their home
     permission: unihome.use
+    usage: /delhome [player]
   home:
     description: Allows the users to go home
     permission: unihome.use
+    usage: /home [player]
   pvpon:
     description: Allow people to hit you
     permission: unihome.pvp
@@ -35,6 +38,10 @@ commands:
     permission: unihome.use
     aliases:
       - toppt
+
+  earmark:
+    description: Mark entities for teleportation
+    permission: unihome.admin
 
 permissions:
   unihome.use:

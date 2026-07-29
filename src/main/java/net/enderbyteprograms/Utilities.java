@@ -498,6 +498,21 @@ public class Utilities
         return array.get(array.size() / 2);
 
     }//end method
+
+
+
+
+    public static String rand62(int l) {
+        String available = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < l; i++) {
+            char selected = available.charAt(getRandomInt(0,available.length() - 1));
+            result.append(selected);
+        }
+
+        return result.toString();
+    }
     
 }//end class
 //end program

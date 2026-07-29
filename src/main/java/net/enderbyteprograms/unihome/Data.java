@@ -7,6 +7,7 @@ import net.enderbyteprograms.database.Database;
 import net.enderbyteprograms.database.Table;
 import net.enderbyteprograms.sjo.SerializedJavaObjectFile;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -35,7 +36,10 @@ public class Data {
     public static SerializedJavaObjectFile<PlayerInfo> playerInfoFile;
     public static final Object playerInformationLock = new Object();
 
-    public static String VersionString = "unihome Mark 5 Patch 0 (c) 2025-2026 Enderbyte Programs";
+    //Various in memory storages
+    public static HashMap<UUID, Entity> earmarkedEntities = new HashMap<UUID,Entity>();
+
+    public static String VersionString = "unihome Mark 6 Patch 0 (c) 2025-2026 Enderbyte Programs";
     public static List<SizeTransition> activeTransitions = new ArrayList<SizeTransition>();
     public static boolean isAprilFoolsRunning;
     public static int aprilFoolsTimer;
