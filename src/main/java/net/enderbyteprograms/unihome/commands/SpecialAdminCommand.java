@@ -53,7 +53,7 @@ public class SpecialAdminCommand implements CommandExecutor {
                         UUID uuid = UUID.fromString(line.split(" ")[0]);
                         Instant joinDate = Instant.ofEpochSecond(Long.parseLong(line.split(" ")[1]));
                         if (Data.playerInformation.containsKey(uuid)) {
-                            Data.playerInformation.get(uuid).joinDay = Math.toIntExact(joinDate.toEpochMilli() / (1000 * 60 * 60 * 24));
+                            Data.playerInformation.get(uuid).joinDay = Math.toIntExact(joinDate.toEpochMilli() / (1000 * 60 * 60 * 24)) + 1;
                             addedrecords++;
                         }
                     }
@@ -83,7 +83,7 @@ public class SpecialAdminCommand implements CommandExecutor {
                         }
                         UUID uuid = UUID.fromString(line.split(" ")[0]);
                         Instant joinDate = Instant.ofEpochSecond(Long.parseLong(line.split(" ")[1]));
-                        if (Data.playerInformation.contains(uuid)) {
+                        if (Data.playerInformation.containsKey(uuid)) {
                             Data.playerInformation.get(uuid).lastSeenDay = Math.toIntExact(joinDate.toEpochMilli() / (1000 * 60 * 60 * 24)) + 1;
                             addedrecords++;
                         }

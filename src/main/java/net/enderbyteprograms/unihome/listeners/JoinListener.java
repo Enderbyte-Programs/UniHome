@@ -33,15 +33,15 @@ public class JoinListener implements Listener {
         if (!Data.playerInformation.get(p.getUniqueId()).joinDataFilledIn()) {
             OfflinePlayer op = Bukkit.getOfflinePlayer(p.getUniqueId());
             long baseval = op.getFirstPlayed();
-            if (baseval != 0) {
-                Data.playerInformation.get(p.getUniqueId()).joinDay = Math.toIntExact(baseval / (1000 * 60 * 60 * 24));
+            if (baseval >= 0) {
+                Data.playerInformation.get(p.getUniqueId()).joinDay = Math.toIntExact(baseval / (1000 * 60 * 60 * 24)) + 1;
             }
         }
 
         if (!Data.playerInformation.get(p.getUniqueId()).lastSeenDataFilledIn()) {
             OfflinePlayer op = Bukkit.getOfflinePlayer(p.getUniqueId());
             long baseval = op.getLastPlayed();
-            if (baseval != 0) {
+            if (baseval >= 0) {
                 Data.playerInformation.get(p.getUniqueId()).lastSeenDay = Math.toIntExact(baseval / (1000 * 60 * 60 * 24)) + 1;
             }
         }
