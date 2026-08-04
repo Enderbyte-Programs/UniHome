@@ -23,6 +23,10 @@ public class HomeCommand implements CommandExecutor {
             Player issuingPlayer = (Player)commandSender;
             String targetUUID = issuingPlayer.getUniqueId().toString();
             if (commandSender.hasPermission("unihome.admin") && strings.length > 0) {
+                if (!Data.uuidToNameMappings.containsValue(strings[0])) {
+                    commandSender.sendMessage(ChatColor.DARK_RED+"Player does not exist or has no home");
+                    return false;
+                }
                 targetUUID = Data.getUUIDFromName(strings[0]).toString();
 
             }

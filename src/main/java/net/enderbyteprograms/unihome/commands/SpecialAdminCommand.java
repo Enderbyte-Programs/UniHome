@@ -2,9 +2,6 @@ package net.enderbyteprograms.unihome.commands;
 
 import net.enderbyteprograms.Utilities;
 import net.enderbyteprograms.unihome.Data;
-import net.enderbyteprograms.database.Comparison;
-import net.enderbyteprograms.database.ResultSet;
-import net.enderbyteprograms.database.Updater;
 import net.enderbyteprograms.unihome.structures.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -13,7 +10,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.Instant;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class SpecialAdminCommand implements CommandExecutor {
 
@@ -33,7 +36,64 @@ public class SpecialAdminCommand implements CommandExecutor {
 
             } else if (xcommand.equals("importjd")) {
 
+                commandSender.sendMessage("Attempting to import from jdexport.txt");
+                File importFile = new File(Data.plugin.getDataFolder(),"jdexport.txt");
+                if (!importFile.exists()) {
+                    commandSender.sendMessage("Ensure jdexport.txt is stored in the data folder");
+                    return false;
+                }
+                try {
+                    List<String> rawImport = Files.readAllLines(importFile.toPath());
+                    int addedrecords = 0;
+                    for (String line:rawImport) {
+                        line = line.trim();
+                        if (line.isEmpty()) {
+                            continue;
+                        }
+                        UUID uuid = UUID.fromString(line.split(" ")[0]);
+                        Instant joinDate = Instant.ofEpochSecond(Long.parseLong(line.split(" ")[1]));
+                        if (Data.playerInformation.containsKey(uuid)) {
+                            Data.playerInformation.get(uuid).joinDay = Math.toIntExact(joinDate.toEpochMilli() / (1000 * 60 * 60 * 24));
+                            addedrecords++;
+                        }
+                    }
+
+                    commandSender.sendMessage(String.format("Added %d records",addedrecords));
+
+                } catch (IOException e) {
+                    commandSender.sendMessage("Failed to read import file");
+                    return false;
+                }
+
             } else if (xcommand.equals("importls")) {
+
+                commandSender.sendMessage("Attempting to import from lsexport.txt");
+                File importFile = new File(Data.plugin.getDataFolder(),"lsexport.txt");
+                if (!importFile.exists()) {
+                    commandSender.sendMessage("Ensure lsexport.txt is stored in the data folder");
+                    return false;
+                }
+                try {
+                    List<String> rawImport = Files.readAllLines(importFile.toPath());
+                    int addedrecords = 0;
+                    for (String line:rawImport) {
+                        line = line.trim();
+                        if (line.isEmpty()) {
+                            continue;
+                        }
+                        UUID uuid = UUID.fromString(line.split(" ")[0]);
+                        Instant joinDate = Instant.ofEpochSecond(Long.parseLong(line.split(" ")[1]));
+                        if (Data.playerInformation.contains(uuid)) {
+                            Data.playerInformation.get(uuid).lastSeenDay = Math.toIntExact(joinDate.toEpochMilli() / (1000 * 60 * 60 * 24)) + 1;
+                            addedrecords++;
+                        }
+                    }
+                    commandSender.sendMessage(String.format("Added %d records",addedrecords));
+
+                } catch (IOException e) {
+                    commandSender.sendMessage("Failed to read import file");
+                    return false;
+                }
 
             } else if (xcommand.equals("syncnames")) {
                 commandSender.sendMessage("Synchronizing server cache and name list...");

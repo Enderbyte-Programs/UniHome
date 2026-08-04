@@ -43,9 +43,7 @@ public class Playtime {
 
 
 
-    public static Instant getJoinTime(String playerUsername) {
-
-        UUID playerUUID = Data.getUUIDFromName(playerUsername);
+    public static Instant getJoinTime(UUID playerUUID) {
 
         if (playerUUID == null) {
             return null;
@@ -86,9 +84,7 @@ public class Playtime {
 
 
 
-    public static Instant getLastSeen(String playerUsername) {
-
-        UUID playerUUID = Data.getUUIDFromName(playerUsername);
+    public static Instant getLastSeen(UUID playerUUID) {
 
 
         if (playerUUID == null) {

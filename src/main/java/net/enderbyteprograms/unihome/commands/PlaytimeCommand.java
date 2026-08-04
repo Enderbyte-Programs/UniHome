@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
+import java.time.*;
 import java.util.UUID;
 
 public class PlaytimeCommand implements CommandExecutor {
@@ -52,11 +52,32 @@ public class PlaytimeCommand implements CommandExecutor {
         }
         String friendlyResult = String.format("%d days, %02d:%02d:%02d",result.toDaysPart(),result.toHoursPart(),result.toMinutesPart(),result.toSecondsPart());
         double resultInKilominutes = result.toMinutes() / 1000D;
+
+        Instant whenJoined = Playtime.getJoinTime(targetUUID);
+        String wjres;
+
+        if (whenJoined == null) {
+            wjres = "Not recorded";
+        } else {
+            LocalDate joinDate = whenJoined.atZone(ZoneId.systemDefault()).toLocalDate();
+            wjres = String.format("%04d-%02d-%02d",joinDate.getYear(),joinDate.getMonthValue(),joinDate.getDayOfMonth());
+        }
+
+        Instant whenSeen = Playtime.getLastSeen(targetUUID);
+        String lsres;
+
+        if (whenSeen == null) {
+            lsres = "Not recorded";
+        } else {
+            LocalDate joinDate = whenSeen.atZone(ZoneId.systemDefault()).toLocalDate();
+            lsres = String.format("%04d-%02d-%02d",joinDate.getYear(),joinDate.getMonthValue(),joinDate.getDayOfMonth());
+        }
+
         sender.sendMessage( ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"===== Information for "+Data.getNameFromUUID(targetUUID)+" =====");
         sender.sendMessage(ChatColor.AQUA+"Playtime: "+ChatColor.RESET+friendlyResult);
         sender.sendMessage(String.format("%sPlaytime (kmin):%s %.03f",ChatColor.AQUA,ChatColor.RESET,resultInKilominutes));
-        sender.sendMessage(String.format("%sJoin date:%s %s",ChatColor.AQUA,ChatColor.RESET,""));
-        sender.sendMessage(String.format("%sLast Seen on:%s %s",ChatColor.AQUA,ChatColor.RESET,""));
+        sender.sendMessage(String.format("%sJoin date:%s %s",ChatColor.AQUA,ChatColor.RESET,wjres));
+        sender.sendMessage(String.format("%sLast Seen on:%s %s",ChatColor.AQUA,ChatColor.RESET,lsres));
         return true;
     }
 }
