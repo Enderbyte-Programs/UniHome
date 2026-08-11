@@ -62,11 +62,13 @@ public class Playtime {
             //int cachedRecord = Data.joinTimeTable.select(new Comparison("uuid",playerUUID.toString(),false)).get(0).getInt("epochdays");
             int cachedRecord = Data.playerInformation.get(playerUUID).joinDay;
 
-            if (cachedRecord < serverStoredRecord && serverStoredRecord > 0) {
+            if (cachedRecord < serverStoredRecord && serverStoredRecord > 1000) {
                 candidateResult = Instant.ofEpochSecond(cachedRecord * (60 * 60 * 24));
-            } else {
+            } else if (serverStoredRecord > 1000) {
                 candidateResult = Instant.ofEpochSecond((long) serverStoredRecord * 60 * 60 * 24);
                 Data.playerInformation.get(playerUUID).joinDay = serverStoredRecord;
+            } else {
+                candidateResult = null;
             }
 
         } else {
