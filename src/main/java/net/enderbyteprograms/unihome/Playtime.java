@@ -107,7 +107,7 @@ public class Playtime {
             int serverStoredRecord = (int)(p.getLastPlayed() / (1000 * 60 * 60 * 24));//Convert to epoch days
             int cachedRecord = Data.playerInformation.get(playerUUID).lastSeenDay;
 
-            if (cachedRecord < serverStoredRecord && serverStoredRecord > 0) {
+            if (cachedRecord > serverStoredRecord && serverStoredRecord > 0) {
                 candidateResult = Instant.ofEpochSecond(cachedRecord * (60 * 60 * 24));
             } else {
                 candidateResult = Instant.ofEpochSecond((long) serverStoredRecord * 60 * 60 * 24);

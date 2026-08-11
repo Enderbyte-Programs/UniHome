@@ -7,6 +7,7 @@ import net.enderbyteprograms.unihome.commands.*;
 import net.enderbyteprograms.unihome.listeners.HitListener;
 import net.enderbyteprograms.unihome.listeners.JoinListener;
 import net.enderbyteprograms.unihome.listeners.KillListener;
+import net.enderbyteprograms.unihome.listeners.LeaveListener;
 import net.enderbyteprograms.unihome.timers.DataSaverTimer;
 import net.enderbyteprograms.unihome.timers.SecondlyTimer;
 import net.enderbyteprograms.unihome.patch.PatchMaster;
@@ -73,6 +74,22 @@ public class UniHomeMain extends JavaPlugin {
                 pi.name = "#unknown_"+ Utilities.getRandomInt(10000,99999);//No longer allowed to have duplicates, sorry
                 pi.comparableName = pi.name;
             }
+
+            if (!pi.joinDataFilledIn()) {
+                getLogger().warning(String.format("User %s needs their join date filled in!",pi.comparableName));
+            }
+
+            if (!pi.anniversaryFilledIn()) {
+                if (pi.joinDataFilledIn()) {
+                    if (pi.joinDay < 5) {
+                        //Try to catch nulls
+                        getLogger().warning(String.format("User %s needs their join date filled in!",pi.comparableName));
+                    } else {
+                        pi.nextAnniversary = pi.joinDay + 365;
+                    }
+                }
+            }
+
             Data.playerInformation.put(UUID.fromString(pi.uuid),pi);
             Data.nameCapitalizationMappings.put(pi.name,pi.comparableName);
             Data.uuidToNameMappings.forcePut(UUID.fromString(pi.uuid),pi.name);
@@ -141,6 +158,7 @@ public class UniHomeMain extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new HitListener(), this);
         getServer().getPluginManager().registerEvents(new KillListener(),this);
+        getServer().getPluginManager().registerEvents(new LeaveListener(),this);
 
         this.getCommand("sethome").setExecutor(new SetHomeCommand());
         this.getCommand("sethome").setTabCompleter(new GenericOnlinePlayersTabCompleter());
@@ -160,6 +178,8 @@ public class UniHomeMain extends JavaPlugin {
         this.getCommand("topplaytime").setExecutor(new PlaytimeLeaderboardCommand());
         this.getCommand("earmark").setExecutor(new EarmarkCommand());
         this.getCommand("earmark").setTabCompleter(new EarmarkCommandTabCompleter());
+        this.getCommand("ieft").setExecutor(new IsEligibleForTrustedCommand());
+        this.getCommand("ieft").setTabCompleter(new GenericOnlinePlayersTabCompleter());
 
         Data.isAprilFoolsRunning = Data.configuration.getBoolean("run-april-fools-2026");
 

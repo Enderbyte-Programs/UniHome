@@ -4,6 +4,7 @@ import net.enderbyteprograms.Utilities;
 import net.enderbyteprograms.unihome.Data;
 import net.enderbyteprograms.unihome.structures.PlayerInfo;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
@@ -14,16 +15,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class SpecialAdminCommand implements CommandExecutor {
 
-    public static String[] availableActions = {"reload","importjd","importls","syncnames","ptimport"};
+    public static String[] availableActions = {"reload","importjd","importls","syncnames","ptimport","forcejd"};
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+
 
         if (strings.length > 0 && commandSender.hasPermission("unihome.admin")) {
             String xcommand = strings[0];
@@ -144,6 +148,30 @@ public class SpecialAdminCommand implements CommandExecutor {
 
                 commandSender.sendMessage(String.format("Added %d new records",recordsadded));
 
+            } else if (xcommand.equals("forcejd")) {
+                if (strings.length < 3) {
+                    commandSender.sendMessage(ChatColor.DARK_RED+"Malformed command. Usage: /uhact forcejd <name> yyyy-mm-dd");
+                    return false;
+                }
+                String playerName = strings[1];
+                String dtString = strings[2];
+                int dayCount = 0;
+                UUID targetUUID = null;
+
+                try {
+
+                    targetUUID = Data.getUUIDFromName(playerName);
+                    DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE;
+                    LocalDate ingress = LocalDate.parse(dtString,dtf);
+                    dayCount = Math.toIntExact(ingress.toEpochDay());
+
+                } catch (Exception e) {
+                    commandSender.sendMessage(ChatColor.DARK_RED+"Malformed command or invalid player");
+                    return false;
+                }
+
+                Data.playerInformation.get(targetUUID).joinDay = dayCount + 1;
+                commandSender.sendMessage("Updated successfully.");
             }
         } else {
 

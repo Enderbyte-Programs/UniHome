@@ -14,6 +14,7 @@ public class PlayerInfo implements SafetySerializable {
     public Integer joinDay;//Epoch days
     public Integer lastSeenDay;//Epoch days
     public Boolean pvpEnabled;
+    public Integer nextAnniversary;
     public static final long serialVersionUID = 1L;
     //These are all objects so they can be nulled
 
@@ -42,4 +43,6 @@ public class PlayerInfo implements SafetySerializable {
     public boolean playtimeFilledIn(){
         return playtimeInTicks != null;
     }
+
+    public boolean anniversaryFilledIn() {return nextAnniversary != null;}
 }

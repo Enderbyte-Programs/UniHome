@@ -1,6 +1,8 @@
 package net.enderbyteprograms; 
 //Import statements
 
+import org.bukkit.ChatColor;
+
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.math.BigInteger;
@@ -512,6 +514,14 @@ public class Utilities
         }
 
         return result.toString();
+    }
+
+    public static String friendlyBool(boolean value) {
+        if (value) {
+            return ChatColor.GREEN + "yes" + ChatColor.RESET;
+        } else {
+            return ChatColor.RED + "no" + ChatColor.RESET;
+        }
     }
     
 }//end class

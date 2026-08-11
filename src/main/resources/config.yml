@@ -17,5 +17,6 @@ censor-invisibility: true
 run-april-fools-2026: false
 
 banned-name-fragments:
-  - Jordan
-  - Rahim
+  - Replace-me-with-secrets
+
+autogrant-cake: true

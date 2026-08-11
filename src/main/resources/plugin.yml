@@ -43,6 +43,10 @@ commands:
     description: Mark entities for teleportation
     permission: unihome.admin
 
+  ieft:
+    description: Is a user eligible for trusted?
+    permission: unihome.use
+
 permissions:
   unihome.use:
     default: true
