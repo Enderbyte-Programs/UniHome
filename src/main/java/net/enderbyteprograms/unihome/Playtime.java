@@ -53,9 +53,9 @@ public class Playtime {
             return null;
         }
 
-        Instant candidateResult;
-        OfflinePlayer p = Bukkit.getOfflinePlayer(playerUUID);
+        Instant candidateResult = Instant.ofEpochSecond(Data.playerInformation.get(playerUUID).joinDay * (60 * 60 * 24));;
 
+        /*
         if (p.hasPlayedBefore()) {
 
             int serverStoredRecord = (int)(p.getFirstPlayed() / (1000 * 60 * 60 * 24));//Convert to epoch days
@@ -68,16 +68,17 @@ public class Playtime {
                 candidateResult = Instant.ofEpochSecond((long) serverStoredRecord * 60 * 60 * 24);
                 Data.playerInformation.get(playerUUID).joinDay = serverStoredRecord;
             } else {
-                candidateResult = null;
+                candidateResult = Instant.ofEpochSecond(cachedRecord * (60 * 60 * 24));
             }
 
         } else {
 
             int prs = Data.playerInformation.get(playerUUID).joinDay;
 
-            candidateResult = Instant.ofEpochSecond((long) prs * 60 * 60 * 24);
+            candidateResult = Instant.ofEpochSecond(prs * (60 * 60 * 24));
 
         }
+         */
 
         if (candidateResult.toEpochMilli() <= 0) {
             candidateResult = null;

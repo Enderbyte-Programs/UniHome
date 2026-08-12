@@ -63,21 +63,27 @@ public class JoinListener implements Listener {
                 int currentDayID = Math.toIntExact(Instant.now().getEpochSecond() / (60 * 60 * 24)) + 1;
                 if (currentDayID >= pi.nextAnniversary) {
 
-                    ItemStack award = new ItemStack(Material.CAKE, 1);
-                    ItemMeta im = award.getItemMeta();
-                    if (im == null) {
-                        im = Bukkit.getItemFactory().getItemMeta(Material.CAKE);
-                    }
-                    int yearcount = Math.floorDiv(((Math.toIntExact(Instant.now().getEpochSecond() / (60 * 60 * 24)) + 1) - pi.joinDay), 365);
-                    im.setDisplayName("Anniversary Award");
-                    im.setLore(List.of(String.format("Awarded to %s for playing on the server for %d year(s)", p.getName(), yearcount)));
-                    im.addEnchant(Enchantment.MENDING,1,true);
-                    award.setItemMeta(im);
+                    if (p.getWorld().getName().startsWith("survival")) {
 
-                    p.getInventory().addItem(award);
-                    p.sendMessage(ChatColor.GREEN + "You have been given an anniversary award! Thank you for your loyalty to this server.");
-                    pi.nextAnniversary += 365;
-                    Data.plugin.getLogger().info("Issued award to most recently joined player");
+                        ItemStack award = new ItemStack(Material.CAKE, 1);
+                        ItemMeta im = award.getItemMeta();
+                        if (im == null) {
+                            im = Bukkit.getItemFactory().getItemMeta(Material.CAKE);
+                        }
+                        int yearcount = Math.floorDiv(((Math.toIntExact(Instant.now().getEpochSecond() / (60 * 60 * 24)) + 1) - pi.joinDay), 365);
+                        im.setDisplayName("Anniversary Award");
+                        im.setLore(List.of(String.format("Awarded to %s for playing on the server for %d year(s)", p.getName(), yearcount)));
+                        im.addEnchant(Enchantment.MENDING, 1, true);
+                        award.setItemMeta(im);
+
+                        p.getInventory().addItem(award);
+                        p.sendMessage(ChatColor.GREEN + "You have been given an anniversary award! Thank you for your loyalty to this server.");
+                        pi.nextAnniversary += 365;
+                        Data.plugin.getLogger().info("Issued award to most recently joined player");
+
+                    } else {
+                        p.sendMessage(ChatColor.AQUA + "There is an award waiting for you. Go to survival and relog to claim it.");
+                    }
                 }
             }
         }
